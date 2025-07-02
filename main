@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA COMPROMETIDO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier Prime', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .glitch-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .warning {
+            color: #ff0000;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+        }
+        
+        .main-message {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff0040;
+            text-shadow: 0 0 20px #ff0040, 0 0 40px #ff0040;
+            animation: glitch 2s infinite, pulse 1.5s infinite;
+            margin: 20px 0;
+        }
+        
+        .sub-message {
+            font-size: 1.5rem;
+            color: #00ff00;
+            margin: 10px 0;
+            animation: typewriter 3s steps(40, end) infinite;
+        }
+        
+        .hacker-text {
+            color: #00ffff;
+            font-size: 1rem;
+            margin-top: 30px;
+            animation: flicker 3s infinite;
+        }
+        
+        .skull {
+            font-size: 3rem;
+            color: #ff0000;
+            animation: rotate 4s linear infinite;
+            margin: 20px 0;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(2px, -2px); }
+            30% { transform: translate(-2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, 2px); }
+            60% { transform: translate(2px, -2px); }
+            70% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            90% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px #ff0040, 0 0 40px #ff0040; }
+            50% { text-shadow: 0 0 40px #ff0040, 0 0 80px #ff0040, 0 0 120px #ff0040; }
+        }
+        
+        @keyframes typewriter {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .matrix-rain {
+            position: absolute;
+            color: #00ff00;
+            font-size: 14px;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        .error-code {
+            color: #ff4444;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            font-family: monospace;
+        }
+        
+        .heart {
+            color: #ff69b4;
+            font-size: 2rem;
+            animation: heartbeat 1s infinite;
+            margin: 0 10px;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <div class="glitch-container">
+        <div class="warning">⚠️ ALERTA DE SEGURIDAD ⚠️</div>
+        <div class="warning">SISTEMA COMPROMETIDO</div>
+        
+        <div class="skull">💀</div>
+        
+        <div class="main-message">TE AMO</div>
+        
+        <div class="sub-message">
+            <span class="heart">💝</span>
+            TU CORAZÓN HA SIDO HACKEADO
+            <span class="heart">💝</span>
+        </div>
+        
+        <div class="hacker-text">
+            > Acceso no autorizado detectado...<br>
+            > Infiltrando sistema emocional...<br>
+            > Cargando sentimientos... ████████████ 100%<br>
+            > Amor.exe ejecutado exitosamente<br>
+        </div>
+        
+        <div class="error-code">
+            ERROR 143: I LOVE YOU<br>
+            CONEXIÓN ESTABLECIDA PERMANENTEMENTE<br>
+            NO ES POSIBLE DESHACER ESTA OPERACIÓN
+        </div>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+        
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Add random glitch effects
+        setInterval(() => {
+            document.body.style.filter = 'hue-rotate(' + Math.random() * 360 + 'deg)';
+            setTimeout(() => {
+                document.body.style.filter = 'none';
+            }, 100);
+        }, 5000);
+        
+        // Console messages for extra effect
+        console.log('%c💀 SISTEMA HACKEADO 💀', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log('%cTU CORAZÓN HA SIDO COMPROMETIDO', 'color: #ff69b4; font-size: 16px;');
+        console.log('%c💝 TE AMO 💝', 'color: #00ff00; font-size: 24px; font-weight: bold;');
+    </script>
+</body>
+</html>
